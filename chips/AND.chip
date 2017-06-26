@@ -1,0 +1,22 @@
+Name
+    AND
+;
+Description
+    AND gate
+;
+Inputs
+    in1, in2
+;
+Outputs
+    out
+;
+Chips
+    nand NAND,
+    not NOT
+;
+Wires
+    in1 -> nand.in1,
+    in2 -> nand.in2,
+    nand.out -> not.in,
+    not.out -> out
+;

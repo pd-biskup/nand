@@ -1,0 +1,25 @@
+Name
+    MUX
+;
+Description
+    Multiplexer
+;
+Inputs
+    in1, in2, sel
+;
+Outputs
+    out
+;
+Chips
+    and1 AND, and2 AND, or OR, not NOT
+;
+Wires
+    in1 -> and1.in1,
+    sel -> not.in,
+    not.out -> and1.in2,
+    in2 -> and2.in1,
+    sel -> and2.in2,
+    and1.out -> or.in1,
+    and2.out -> or.in2,
+    or.out -> out
+;

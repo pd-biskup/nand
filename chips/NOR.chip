@@ -1,0 +1,21 @@
+Name
+    NOR
+;
+Description
+    NOR gate
+;
+Inputs
+    in1, in2
+;
+Outputs
+    out
+;
+Chips
+    or OR, not NOT
+;
+Wires
+    in1 -> or.in1,
+    in2 -> or.in2,
+    or.out -> not.in,
+    not.out -> out
+;

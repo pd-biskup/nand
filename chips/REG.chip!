@@ -1,0 +1,22 @@
+Name
+    REG
+;
+Description
+    1-bit register
+;
+Inputs
+    in, load
+;
+Outputs
+    out
+;
+Chips
+    dff DFF, mux MUX
+;
+Wires
+    dff.out -> mux.in1,
+    in -> mux.in2,
+    load -> mux.sel,
+    mux.out -> dff.in,
+    dff.out -> out
+;
