@@ -47,7 +47,7 @@ class Parser:
             for i in range(len(inputs)):
                 inputs[i] = inputs[i].strip()
                 if any(char in inputs[i] for char in whitespace) or not inputs[i].isalnum():
-                    raise Exception('Input parse error: %s')
+                    raise Exception('Input parse error: %s' % inputs[i])
             if not sections[3].startswith('Outputs'):
                 raise Exception('Section Outputs parse error')
             outputs = sections[3][7:].replace('\n', '').split(',')
@@ -76,7 +76,7 @@ class Parser:
                 if len(wires[i]) is not 2\
                         or any(char in wires[i][0] for char in whitespace)\
                         or any(char in wires[i][1] for char in whitespace):
-                    raise Exception('Wires parse error')
+                    raise Exception('Wires parse error %s' % wires[i])
             dependencies = set()
             for ch in chips:
                 dependencies.add(ch[1])

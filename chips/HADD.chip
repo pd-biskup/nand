@@ -1,0 +1,23 @@
+Name
+    HADD
+;
+Description
+    Half adder
+;
+Inputs
+    in1, in2
+;
+Outputs
+    out, carry
+;
+Chips
+    xor XOR, and AND
+;
+Wires
+    in1 -> xor.in1,
+    in2 -> xor.in2,
+    in1 -> and.in1,
+    in2 -> and.in2,
+    xor.out -> out,
+    and.out -> carry
+;

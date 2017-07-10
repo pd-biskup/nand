@@ -109,7 +109,7 @@ class Chip:
                 if wire[1].parent is self and wire[1].name == out.name:
                     out.value = wire[0].value'''
 
-    def tick(self, inputs):
+    '''def tick(self, inputs):
         for name in inputs:
             for inpt in self.input:
                 if name == inpt.name:
@@ -139,7 +139,53 @@ class Chip:
                         chip.tick(ins)
                         for wire in wires_queue:
                             if chip is wire[0].parent and wires_queue[wire] is not None:
-                                wires_queue[wire] = True
+                                wires_queue[wire] = True'''
+
+    def tick(self, inputs):
+        pins = []
+
+        for input in self.input:
+            for name in inputs:
+                if input.name == name:
+                    input.value = inputs[name]
+                    break
+            input.ticked = True
+            pins.append(input)
+        for output in self.output:
+            output.ticked = False
+            pins.append(output)
+        for chip in self.chips:
+            for inp in chip.input:
+                inp.ticked = False
+                pins.append(inp)
+            for out in chip.output:
+                out.ticked = False
+                if chip.code == 'DFF':
+                    chip.update()
+                    out.ticked = True
+                pins.append(out)
+        wires = []
+        for wire in self.wires:
+            wires.append(wire)
+
+        while wires:
+            done = []
+            for index, wire in enumerate(wires):
+                if wire[0].ticked:
+                    wire[1].value = wire[0].value
+                    wire[1].ticked = True
+                    if all([pin.ticked for pin in wire[1].parent.input]) and wire[1].parent in self.chips:
+                        ins = {}
+                        for input in wire[1].parent.input:
+                            ins[input.name] = input.value
+                        wire[1].parent.tick(ins)
+                        for output in wire[1].parent.output:
+                            output.ticked = True
+                    done.append(index)
+            done.sort(reverse=True)
+            for index in done:
+                del wires[index]
+
 
     def build_graph(self):
         graph = nx.DiGraph()
@@ -194,6 +240,9 @@ class DFF(Chip):
         self.outputs[0].value = self._value
         self._value = bool(inputs['in'])
 
+    def update(self):
+        self.outputs[0].value = self._value
+
 
 class Pin:
 
@@ -201,6 +250,7 @@ class Pin:
         self.name = name
         self.value = False
         self.parent = parent
+        self.ticked = False
 
     def __str__(self):
         return self.name
