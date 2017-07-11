@@ -1,0 +1,30 @@
+Name
+    OR4B
+;
+Description
+    4-bit OR.
+;
+Inputs
+    in1[4],
+    in2[4]
+;
+Outputs
+    out[4]
+;
+Chips
+    or1 OR, or2 OR, or3 OR, or4 OR
+;
+Wires
+    in1[1] -> or1.in1,
+    in1[2] -> or2.in1,
+    in1[3] -> or3.in1,
+    in1[4] -> or4.in1,
+    in2[1] -> or1.in2,
+    in2[2] -> or2.in2,
+    in2[3] -> or3.in2,
+    in2[4] -> or4.in2,
+    or1.out -> out[1],
+    or2.out -> out[2],
+    or3.out -> out[3],
+    or4.out -> out[4]
+;

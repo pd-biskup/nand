@@ -1,0 +1,21 @@
+Name
+    NOT8B
+;
+Description
+    8-bit NOT.
+;
+Inputs
+    in[8]
+;
+Outputs
+    out[8]
+;
+Chips
+    not1 NOT4B, not2 NOT4B
+;
+Wires
+    in[:4] -> not1.in,
+    in[5:] -> not2.in,
+    not1.out -> out[:4],
+    not2.out -> out[5:]
+;

@@ -1,0 +1,23 @@
+Name
+    NAND8B
+;
+Description
+    8-bit NAND.
+;
+Inputs
+    in1[8], in2[8]
+;
+Outputs
+    out[8]
+;
+Chips
+    nand1 NAND4B, nand2 NAND4B
+;
+Wires
+    in1[:4] -> nand1.in1,
+    in2[:4] -> nand1.in2,
+    in1[5:] -> nand2.in1,
+    in2[5:] -> nand2.in2,
+    nand1.out -> out[:4],
+    nand2.out -> out[5:]
+;

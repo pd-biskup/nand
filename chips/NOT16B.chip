@@ -1,0 +1,21 @@
+Name
+    NOT16B
+;
+Description
+    16-bit NOT.
+;
+Inputs
+    in[16]
+;
+Outputs
+    out[16]
+;
+Chips
+    not1 NOT8B, not2 NOT8B
+;
+Wires
+    in[:8] -> not1.in,
+    in[9:] -> not2.in,
+    not1.out -> out[:8],
+    not2.out -> out[9:]
+;

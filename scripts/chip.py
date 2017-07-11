@@ -1,6 +1,7 @@
 import networkx as nx
 from matplotlib import pyplot as plt
 import copy
+import re
 
 
 class Chip:
@@ -28,10 +29,20 @@ class Chip:
             self.description = data[1]
             self.inputs = []
             for input in data[2]:
-                self.inputs.append(Pin(input, self))
+                if input[-1] == ']':
+                    bus = re.split(r'\[|\]', input)
+                    count = int(bus[1])
+                    self.inputs.append(Bus(bus[0], count, self))
+                else:
+                    self.inputs.append(Pin(input, self))
             self.outputs = []
             for output in data[3]:
-                self.outputs.append(Pin(output, self))
+                if output[-1] == ']':
+                    bus = re.split(r'\[|\]', output)
+                    count = int(bus[1])
+                    self.outputs.append(Bus(bus[0], count, self))
+                else:
+                    self.outputs.append(Pin(output, self))
             self.chips = []
             for ch in data[4]:
                 if ch[1] == 'NAND':
@@ -44,12 +55,13 @@ class Chip:
             for wire in data[5]:
                 pin1 = None
                 pin2 = None
-                if '.' not in wire[0]:
+
+                if '.' not in wire[0] and '[' not in wire[0]:
                     for input in self.inputs:
                         if input.name == wire[0]:
                             pin1 = input
                             break
-                else:
+                elif '[' not in wire[0]:
                     wire[0] = wire[0].split('.')
                     for ch in self.chips:
                         if ch.name == wire[0][0]:
@@ -58,12 +70,59 @@ class Chip:
                                     pin1 = output
                                     break
                             break
-                if '.' not in wire[1]:
+                elif '.' not in wire[0]:
+                    pin = re.split(r'\[|\]', wire[0])
+                    if ':' in pin[1]:
+                        sl = pin[1].split(':')
+                        for input in self.inputs:
+                            if input.name == pin[0]:
+                                if sl[0] == '':
+                                    sl[0] = 1
+                                else:
+                                    sl[0] = int(sl[0])
+                                if sl[1] == '':
+                                    sl[1] = len(input)
+                                else:
+                                    sl[1] = int(sl[1])
+                                pin1 = BusSlice(input, sl[0], sl[1])
+                                break
+                    else:
+                        for input in self.inputs:
+                            if input.name == pin[0]:
+                                pin_nr = int(pin[1])
+                                pin1 = input[pin_nr - 1]
+                else:
+                    pin = re.split(r'\[|\]', wire[0])
+                    if ':' in pin[1]:
+                        sl = pin[1].split(':')
+                        for ch in self.chips:
+                            if ch.name == wire[0][0]:
+                                for output in ch.output:
+                                    if output.name == wire[0][1]:
+                                        if sl[0] == '':
+                                            sl[0] = 1
+                                        else:
+                                            sl[0] = int(sl[0])
+                                        if sl[1] == '':
+                                            sl[1] = len(output)
+                                        else:
+                                            sl[1] = int(sl[1])
+                                        pin1 = BusSlice(output, sl[0], sl[1])
+                                        break
+                    else:
+                        for ch in self.chips:
+                            if ch.name == wire[0][0]:
+                                for output in ch.output:
+                                    if output.name == wire[0][1]:
+                                        pin_nr = int(pin[1])
+                                        pin1 = output[pin_nr - 1]
+
+                if '.' not in wire[1] and '[' not in wire[1]:
                     for output in self.outputs:
                         if output.name == wire[1]:
                             pin2 = output
                             break
-                else:
+                elif '[' not in wire[1]:
                     wire[1] = wire[1].split('.')
                     for ch in self.chips:
                         if ch.name == wire[1][0]:
@@ -72,7 +131,61 @@ class Chip:
                                     pin2 = input
                                     break
                             break
-                self.wires.append((pin1, pin2))
+                elif '.' not in wire[0]:
+                    pin = re.split(r'\[|\]', wire[1])
+                    if ':' in pin[1]:
+                        sl = pin[1].split(':')
+                        for output in self.outputs:
+                            if output.name == pin[0]:
+                                if sl[0] == '':
+                                    sl[0] = 1
+                                else:
+                                    sl[0] = int(sl[0])
+                                if sl[1] == '':
+                                    sl[1] = len(output)
+                                else:
+                                    sl[1] = int(sl[1])
+                                pin2 = BusSlice(output, sl[0], sl[1])
+                                break
+                    else:
+                        for output in self.outputs:
+                            if output.name == pin[0]:
+                                pin_nr = int(pin[1])
+                                pin2 = output[pin_nr - 1]
+                else:
+                    pin = re.split(r'\[|\]', wire[1])
+                    if ':' in pin[1]:
+                        sl = pin[1].split(':')
+                        for ch in self.chips:
+                            if ch.name == wire[1][0]:
+                                for input in ch.input:
+                                    if input.name == wire[1][1]:
+                                        if sl[0] == '':
+                                            sl[0] = 1
+                                        else:
+                                            sl[0] = int(sl[0])
+                                        if sl[1] == '':
+                                            sl[1] = len(input)
+                                        else:
+                                            sl[1] = int(sl[1])
+                                        pin2 = BusSlice(input, sl[0], sl[1])
+                                        break
+                    else:
+                        for ch in self.chips:
+                            if ch.name == wire[1][0]:
+                                for input in ch.input:
+                                    if input.name == wire[1][1]:
+                                        pin_nr = int(pin[1])
+                                        pin2 = input[pin_nr - 1]
+
+                if hasattr(pin1, '__getitem__'):
+                    if len(pin1) == len(pin1):
+                        for i in range(len(pin1)):
+                            self.wires.append((pin1[i], pin2[i]))
+                    else:
+                        raise Exception('Uneven buses')
+                else:
+                    self.wires.append((pin1, pin2))
         self.graph, self.user_graph = self.build_graph()
 
     @property
@@ -143,14 +256,17 @@ class Chip:
 
     def tick(self, inputs):
         pins = []
-
         for input in self.input:
             for name in inputs:
                 if input.name == name:
-                    input.value = inputs[name]
+                    if isinstance(input, Bus):
+                        input.set_pins(inputs[name])
+                        pins += input.pins
+                    else:
+                        input.value = inputs[name]
+                        input.ticked = True
+                        pins.append(input)
                     break
-            input.ticked = True
-            pins.append(input)
         for output in self.output:
             output.ticked = False
             pins.append(output)
@@ -185,7 +301,6 @@ class Chip:
             done.sort(reverse=True)
             for index in done:
                 del wires[index]
-
 
     def build_graph(self):
         graph = nx.DiGraph()
@@ -254,3 +369,59 @@ class Pin:
 
     def __str__(self):
         return self.name
+
+
+class Bus:
+
+    def __init__(self, name, width, parent):
+        self.name = name
+        self.width = width
+        self.parent = parent
+        self.pins = []
+        for i in range(width):
+            self.pins.append(Pin('%s[%i]' % (name, i + 1), parent))
+
+    def set_pins(self, values):
+        for index, pin in enumerate(self.pins):
+            pin.value = values[index]
+            pin.ticked = True
+
+    @property
+    def ticked(self):
+        return all(pin.ticked for pin in self.pins)
+
+    @ticked.setter
+    def ticked(self, value):
+        for pin in self.pins:
+            pin.ticked = value
+
+    @property
+    def value(self):
+        return [pin.value for pin in self.pins]
+
+    def __str__(self):
+        return '%s[%i]' % (self.name, self.width)
+
+    def __getitem__(self, item):
+        return self.pins[item]
+
+    def __len__(self):
+        return self.width
+
+
+class BusSlice:
+
+    def __init__(self, bus, begin, end):
+        self.bus = bus
+        self.begin = begin
+        self.end = end
+        self.width = end - begin + 1
+
+    def __str__(self):
+        return '%s[%i:%i]' % (self.bus.name, self.begin, self.end)
+
+    def __getitem__(self, item):
+        return self.bus[self.begin + item - 1]
+
+    def __len__(self):
+        return self.width

@@ -46,14 +46,14 @@ class Parser:
             inputs = sections[2][6:].replace('\n', '').split(',')
             for i in range(len(inputs)):
                 inputs[i] = inputs[i].strip()
-                if any(char in inputs[i] for char in whitespace) or not inputs[i].isalnum():
+                if any(char in inputs[i] for char in whitespace):
                     raise Exception('Input parse error: %s' % inputs[i])
             if not sections[3].startswith('Outputs'):
                 raise Exception('Section Outputs parse error')
             outputs = sections[3][7:].replace('\n', '').split(',')
             for i in range(len(outputs)):
                 outputs[i] = outputs[i].strip()
-                if any(char in outputs[i] for char in whitespace) or not outputs[i].isalnum():
+                if any(char in outputs[i] for char in whitespace):
                     raise Exception('Output parse error')
             if not sections[4].startswith('Chips'):
                 raise Exception('Section Chips parse error')
@@ -87,6 +87,7 @@ class Parser:
     def build_graph(chips):
         graph = nx.DiGraph()
         graph.add_node('NAND')
+        graph.add_node('DFF')
         graph.add_nodes_from([ch[0] for ch in chips])
         for ch in chips:
             for dep in ch[1]:

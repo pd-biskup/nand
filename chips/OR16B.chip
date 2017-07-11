@@ -1,0 +1,24 @@
+Name
+    OR16B
+;
+Description
+    16-bit OR.
+;
+Inputs
+    in1[16],
+    in2[16]
+;
+Outputs
+    out[16]
+;
+Chips
+    or1 OR8B, or2 OR8B
+;
+Wires
+    in1[:8] -> or1.in1,
+    in1[9:] -> or2.in1,
+    in2[:8] -> or1.in2,
+    in2[9:] -> or2.in2,
+    or1.out -> out[:8],
+    or2.out -> out[9:]
+;
