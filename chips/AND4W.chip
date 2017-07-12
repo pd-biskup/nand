@@ -1,0 +1,24 @@
+Name
+    AND4W
+;
+Description
+    4-way AND.
+;
+Inputs
+    in1, in2, in3, in4
+;
+Outputs
+    out
+;
+Chips
+    and1 AND, and2 AND, and3 AND
+;
+Wires
+    in1 -> and1.in1,
+    in2 -> and1.in2,
+    in3 -> and2.in1,
+    in4 -> and2.in2,
+    and1.out -> and3.in1,
+    and2.out -> and3.in2,
+    and3.out -> out
+;

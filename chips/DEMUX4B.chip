@@ -1,0 +1,33 @@
+Name
+    DEMUX4B
+;
+Description
+    4-bit demultiplexer.
+;
+Inputs
+    in[4], sel
+;
+Outputs
+    out1[4], out2[4]
+;
+Chips
+    demux1 DEMUX, demux2 DEMUX, demux3 DEMUX, demux4 DEMUX
+;
+Wires
+    in[1] -> demux1.in,
+    in[2] -> demux2.in,
+    in[3] -> demux3.in,
+    in[4] -> demux4.in,
+    sel -> demux1.sel,
+    sel -> demux2.sel,
+    sel -> demux3.sel,
+    sel -> demux4.sel,
+    demux1.out1 -> out1[1],
+    demux2.out1 -> out1[2],
+    demux3.out1 -> out1[3],
+    demux4.out1 -> out1[4],
+    demux1.out2 -> out2[1],
+    demux2.out2 -> out2[2],
+    demux3.out2 -> out2[3],
+    demux4.out2 -> out2[4]
+;

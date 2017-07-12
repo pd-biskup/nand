@@ -1,0 +1,23 @@
+Name
+    AND8B
+;
+Description
+    8-bit AND.
+;
+Inputs
+    in1[8], in2[8]
+;
+Outputs
+    out[8]
+;
+Chips
+    and1 AND4B, and2 AND4B
+;
+Wires
+    in1[:4] -> and1.in1,
+    in1[5:] -> and2.in1,
+    in2[:4] -> and1.in2,
+    in2[5:] -> and2.in2,
+    and1.out -> out[:4],
+    and2.out -> out[5:]
+;

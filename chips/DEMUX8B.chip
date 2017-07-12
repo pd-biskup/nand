@@ -1,0 +1,25 @@
+Name
+    DEMUX8B
+;
+Description
+    8-bit demultiplexer.
+;
+Inputs
+    in[8], sel
+;
+Outputs
+    out1[8], out2[8]
+;
+Chips
+    demux1 DEMUX4B, demux2 DEMUX4B
+;
+Wires
+    in[:4] -> demux1.in,
+    in[5:] -> demux2.in,
+    sel -> demux1.sel,
+    sel -> demux2.sel,
+    demux1.out1 -> out1[:4],
+    demux2.out1 -> out1[5:],
+    demux1.out2 -> out2[:4],
+    demux2.out2 -> out2[5:]
+;

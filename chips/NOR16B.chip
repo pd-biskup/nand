@@ -1,0 +1,21 @@
+Name
+    NOR16B
+;
+Description
+    16-bit NOR.
+;
+Inputs
+    in1[16], in2[16]
+;
+Outputs
+    out[16]
+;
+Chips
+    or OR16B, not NOT16B
+;
+Wires
+    in1 -> or.in1,
+    in2 -> or.in2,
+    or.out -> not.in,
+    not.out -> out
+;

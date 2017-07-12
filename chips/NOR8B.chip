@@ -1,0 +1,21 @@
+Name
+    NOR8B
+;
+Description
+    8-bit NOR.
+;
+Inputs
+    in1[8], in2[8]
+;
+Outputs
+    out[8]
+;
+Chips
+    or OR8B, not NOT8B
+;
+Wires
+    in1 -> or.in1,
+    in2 -> or.in2,
+    or.out -> not.in,
+    not.out -> out
+;

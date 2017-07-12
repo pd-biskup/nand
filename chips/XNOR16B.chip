@@ -1,0 +1,21 @@
+Name
+    XNOR16B
+;
+Description
+    16-bit XNOR.
+;
+Inputs
+    in1[16], in2[16]
+;
+Outputs
+    out[16]
+;
+Chips
+    xor XOR16B, not NOT16B
+;
+Wires
+    in1 -> xor.in1,
+    in2 -> xor.in2,
+    xor.out -> not.in,
+    not.out -> out
+;

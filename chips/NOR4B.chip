@@ -1,0 +1,21 @@
+Name
+    NOR4B
+;
+Description
+    4-bit NOR.
+;
+Inputs
+    in1[4], in2[4]
+;
+Outputs
+    out[4]
+;
+Chips
+    or OR4B, not NOT4B
+;
+Wires
+    in1 -> or.in1,
+    in2 -> or.in2,
+    or.out -> not.in,
+    not.out -> out
+;

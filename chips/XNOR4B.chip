@@ -1,0 +1,21 @@
+Name
+    XNOR4B
+;
+Description
+    4-bit XNOR.
+;
+Inputs
+    in1[4], in2[4]
+;
+Outputs
+    out[4]
+;
+Chips
+    xor XOR4B, not NOT4B
+;
+Wires
+    in1 -> xor.in1,
+    in2 -> xor.in2,
+    xor.out -> not.in,
+    not.out -> out
+;

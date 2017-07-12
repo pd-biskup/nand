@@ -1,0 +1,25 @@
+Name
+    DEMUX16B
+;
+Description
+    16-bit demultiplexer.
+;
+Inputs
+    in[16], sel
+;
+Outputs
+    out1[16], out2[16]
+;
+Chips
+    demux1 DEMUX8B, demux2 DEMUX8B
+;
+Wires
+    in[:8] -> demux1.in,
+    in[9:] -> demux2.in,
+    sel -> demux1.sel,
+    sel -> demux2.sel,
+    demux1.out1 -> out1[:8],
+    demux2.out1 -> out1[9:],
+    demux1.out2 -> out2[:8],
+    demux2.out2 -> out2[9:]
+;

@@ -1,0 +1,21 @@
+Name
+    XNOR8B
+;
+Description
+    8-bit XNOR.
+;
+Inputs
+    in1[8], in2[8]
+;
+Outputs
+    out[8]
+;
+Chips
+    xor XOR8B, not NOT8B
+;
+Wires
+    in1 -> xor.in1,
+    in2 -> xor.in2,
+    xor.out -> not.in,
+    not.out -> out
+;

@@ -1,0 +1,27 @@
+Name
+    MUX4W
+;
+Description
+    4-way multiplexer.
+;
+Inputs
+    in1, in2, in3, in4, sel[2]
+;
+Outputs
+    out
+;
+Chips
+    mux1 MUX, mux2 MUX, mux3 MUX
+;
+Wires
+    in1 -> mux1.in1,
+    in2 -> mux1.in2,
+    in3 -> mux2.in1,
+    in4 -> mux2.in2,
+    sel[2] -> mux1.sel,
+    sel[2] -> mux2.sel,
+    mux1.out -> mux3.in1,
+    mux2.out -> mux3.in2,
+    sel[1] -> mux3.sel,
+    mux3.out -> out
+;

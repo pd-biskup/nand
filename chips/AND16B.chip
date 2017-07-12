@@ -1,0 +1,23 @@
+Name
+    AND16B
+;
+Description
+    16-bit AND.
+;
+Inputs
+    in1[16], in2[16]
+;
+Outputs
+    out[16]
+;
+Chips
+    and1 AND8B, and2 AND8B
+;
+Wires
+    in1[:8] -> and1.in1,
+    in1[9:] -> and2.in1,
+    in2[:8] -> and1.in2,
+    in2[9:] -> and2.in2,
+    and1.out -> out[:8],
+    and2.out -> out[9:]
+;

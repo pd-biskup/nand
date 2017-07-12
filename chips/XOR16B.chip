@@ -1,0 +1,23 @@
+Name
+    XOR16B
+;
+Description
+    16-bit XOR.
+;
+Inputs
+    in1[16], in2[16]
+;
+Outputs
+    out[16]
+;
+Chips
+    xor1 XOR8B, xor2 XOR8B
+;
+Wires
+    in1[:8] -> xor1.in1,
+    in1[9:] -> xor2.in1,
+    in2[:8] -> xor1.in2,
+    in2[9:] -> xor2.in2,
+    xor1.out -> out[:8],
+    xor2.out -> out[9:]
+;

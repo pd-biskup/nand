@@ -329,6 +329,15 @@ class Chip:
         nx.draw_networkx(self.user_graph)
         plt.show()
 
+    def parts_count(self):
+        nand = 0
+        dff = 0
+        for chip in self.chips:
+            in_nand, in_dff = chip.parts_count()
+            nand += in_nand
+            dff += in_dff
+        return nand, dff
+
     def __str__(self):
         return self.name
 
@@ -344,6 +353,9 @@ class NAND(Chip):
         else:
             self.outputs[0].value = True
 
+    def parts_count(self):
+        return 1, 0
+
 
 class DFF(Chip):
 
@@ -357,6 +369,9 @@ class DFF(Chip):
 
     def update(self):
         self.outputs[0].value = self._value
+
+    def parts_count(self):
+        return 0, 1
 
 
 class Pin:

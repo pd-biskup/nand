@@ -1,0 +1,23 @@
+Name
+    XOR8B
+;
+Description
+    8-bit XOR.
+;
+Inputs
+    in1[8], in2[8]
+;
+Outputs
+    out[8]
+;
+Chips
+    xor1 XOR4B, xor2 XOR4B
+;
+Wires
+    in1[:4] -> xor1.in1,
+    in1[5:] -> xor2.in1,
+    in2[:4] -> xor1.in2,
+    in2[5:] -> xor2.in2,
+    xor1.out -> out[:4],
+    xor2.out -> out[5:]
+;
