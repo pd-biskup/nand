@@ -1,0 +1,30 @@
+{
+    "Name": "NOT",
+    "Description": "NOT Gate",
+    "Inputs": [
+        "in"
+    ],
+    "Outputs": [
+        "out"
+    ],
+    "Chips": [
+        {
+            "type": "NAND",
+            "name": "nand"
+        }
+    ],
+    "Wires": [
+        {
+            "in": "in",
+            "out": "nand.in1"
+        },
+        {
+            "in": "in",
+            "out": "nand.in2"
+        },
+        {
+            "in": "nand.out",
+            "out": "out"
+        }
+    ]
+}

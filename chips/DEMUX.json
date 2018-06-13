@@ -1,0 +1,56 @@
+{
+    "Name": "Demux",
+    "Description": "Demultiplexer",
+    "Inputs": [
+        "in",
+        "sel"
+    ],
+    "Outputs": [
+        "out1",
+        "out2"
+    ],
+    "Chips": [
+        {
+            "type": "AND",
+            "name": "and1"
+        },
+        {
+            "type": "AND",
+            "name": "and2"
+        },
+        {
+            "type": "NOT",
+            "name": "not"
+        }
+    ],
+    "Wires": [
+        {
+            "in": "in",
+            "out": "and1.in1"
+        },
+        {
+            "in": "sel",
+            "out": "not.in"
+        },
+        {
+            "in": "not.out",
+            "out": "and1.in2"
+        },
+        {
+            "in": "and1.out",
+            "out": "out1"
+        },
+        {
+            "in": "in",
+            "out": "and2.in1"
+        },
+        {
+            "in": "sel",
+            "out": "and2.in2"
+        },
+        {
+            "in": "and2.out",
+            "out": "out2"
+        }
+    ]
+}
