@@ -54,11 +54,11 @@ class Chip:
                         pin1 = input
                         break
             elif '[' not in wire['in']:
-                wire['in'] = wire['in'].split('.')
+                wire_in = wire['in'].split('.')
                 for ch in self.chips:
-                    if ch.name == wire['in'][0]:
+                    if ch.name == wire_in[0]:
                         for output in ch.outputs:
-                            if output.name == wire['in'][1]:
+                            if output.name == wire_in[1]:
                                 pin1 = output
                                 break
                         break
@@ -115,15 +115,15 @@ class Chip:
                         pin2 = output
                         break
             elif '[' not in wire['out']:
-                wire['out'] = wire['out'].split('.')
+                wire_out = wire['out'].split('.')
                 for ch in self.chips:
-                    if ch.name == wire['out'][0]:
+                    if ch.name == wire_out[0]:
                         for input in ch.inputs:
-                            if input.name == wire['out'][1]:
+                            if input.name == wire_out[1]:
                                 pin2 = input
                                 break
                         break
-            elif '.' not in wire[0]:
+            elif '.' not in wire['out']:
                 pin = re.split(r'\[|\]', wire['out'])
                 if ':' in pin[1]:
                     sl = pin[1].split(':')
@@ -265,7 +265,15 @@ class Chip:
         return nand, dff
 
     def __str__(self):
-        return self.name
+        text = f'{self.name} {self.code}\n'
+        for out in self.outputs:
+            length = max(len(out.name), len(str(out.value))) + 2
+            text += f'{out.name:>{length}}'
+        text += '\n'
+        for out in self.outputs:
+            length = max(len(out.name), len(str(out.value))) + 2
+            text += f'{str(out.value):>{length}}'
+        return text
 
 
 class NAND(Chip):

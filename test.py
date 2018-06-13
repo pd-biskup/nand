@@ -7,6 +7,6 @@ store.register('DFF', DFF)
 
 load_chips()
 
-no = store.get('NOT', 'not')
-no.tick({'in': 0})
-print(no.outputs[0].value)
+ch = store.get('AND8B', 'and')
+ch.tick({'in1': [1, 0, 0, 1, 1, 1, 1, 0], 'in2': [0, 0, 1, 1, 1, 1, 0, 0]})
+print(ch)
