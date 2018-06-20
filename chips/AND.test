@@ -1,0 +1,16 @@
+Name
+    AND Test
+;
+Description
+    AND Test
+;
+Chip
+    AND
+;
+Test
+    in1 in2 out
+    0   0   0
+    0   1   0
+    1   0   0
+    1   1   1
+;

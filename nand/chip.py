@@ -1,5 +1,5 @@
-import networkx as nx
-from matplotlib import pyplot as plt
+# import networkx as nx
+# from matplotlib import pyplot as plt
 import re
 from nand.store import store
 
@@ -178,7 +178,7 @@ class Chip:
                     raise Exception('Uneven buses')
             else:
                 self.wires.append((pin1, pin2))
-        self.graph, self.user_graph = self.build_graph()
+        # self.graph, self.user_graph = self.build_graph()
 
     def tick(self, inputs):
         pins = []
@@ -228,6 +228,7 @@ class Chip:
             for index in done:
                 del wires[index]
 
+    '''
     def build_graph(self):
         graph = nx.DiGraph()
         graph.add_nodes_from(self.chips)
@@ -254,6 +255,7 @@ class Chip:
     def show_graph(self):
         nx.draw_networkx(self.user_graph)
         plt.show()
+    '''
 
     def parts_count(self):
         nand = 0
@@ -289,9 +291,9 @@ class NAND(Chip):
 
     def tick(self, inputs):
         if inputs['in1'] and inputs['in2']:
-            self.outputs[0].value = False
+            self.outputs[0].value = 0
         else:
-            self.outputs[0].value = True
+            self.outputs[0].value = 1
 
     def parts_count(self):
         return 1, 0
@@ -311,7 +313,7 @@ class DFF(Chip):
         self.outputs = [Pin('out', self)]
         self.chips = {}
         self.wires = []
-        self._value = False
+        self._value = 0
 
     def tick(self, inputs):
         self.outputs[0].value = self._value
@@ -332,7 +334,7 @@ class Pin:
 
     def __init__(self, name, parent):
         self.name = name
-        self.value = False
+        self.value = 0
         self.parent = parent
         self.ticked = False
 
