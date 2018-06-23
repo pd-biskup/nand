@@ -1,8 +1,10 @@
 import pathlib
 import json
-from nand.chip import ChipInfo
-from nand.store import store
-from nand.test import Test
+from core.chip import ChipInfo
+from core.store import store
+from core.test import Test
+from util.log import log
+from util.config import Level
 
 
 def parse_chip(chip):
@@ -94,7 +96,8 @@ def parse_sections(text):
 
 
 def load_chips():
-    path = pathlib.Path('.')
+    log.log('Loading chips', Level.INF)
+    path = pathlib.Path('..')
     paths = list(path.glob('chips/**/*.chip'))
     data = []
     for path in paths:
@@ -111,12 +114,19 @@ def load_chips():
                 del data[i]
                 break
         if length == len(data):
+            log.log('Some chips have unresolved dependencies', Level.WRN)
             break
+    log.log('Chips loaded', Level.INF)
 
 
 def load_test(name):
-    path = pathlib.Path(f'chips/{name}.test')
+    log.log(f'Loading test: {name}', Level.DBG)
+    path = pathlib.Path(f'../chips/{name}.test')
     if path.exists():
         text = load_file(path)
         test = parse_test(text)
+        log.log(f'Loaded test: {name}', Level.DBG)
         return test
+    else:
+        log.log(f'Loading test failed. File {path.absolute()} not found.', Level.ERR)
+        raise FileNotFoundError(path.absolute())

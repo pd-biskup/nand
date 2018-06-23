@@ -1,7 +1,7 @@
 # import networkx as nx
 # from matplotlib import pyplot as plt
 import re
-from nand.store import store
+from core.store import store
 
 
 class ChipInfo:
