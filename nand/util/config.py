@@ -9,6 +9,8 @@ class Level(IntEnum):
     INF = 3
     DBG = 4
 
+workspace = '~/.nand'
+
 log_level = Level.DBG
 log_output = [stdout]
 

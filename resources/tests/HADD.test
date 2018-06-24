@@ -1,0 +1,17 @@
+ 
+Name
+	HADD Test
+;
+Description
+	HADD Test
+;
+Chip
+	HADD
+;
+Test
+	in1		in2		out		carry
+	0		0		0		0
+	0		1		1		0
+	1		0		1		0
+	1		1		0		1
+;

@@ -1,9 +1,10 @@
-from core.store import store
-from core.parser import load_chips, load_test
-from core.chip import NAND, DFF
+from nand.core.store import store
+from nand.core.parser import load_chips, load_test
+from nand.core.chip import NAND, DFF
 import argparse
 
-if __name__ == '__main__':
+
+def main():
     store.register('NAND', NAND)
     store.register('DFF', DFF)
     load_chips()
@@ -13,3 +14,7 @@ if __name__ == '__main__':
     test = load_test(args.test)
     test.evaluate()
     print(test.summary(color=True))
+
+
+if __name__ == '__main__':
+    main()

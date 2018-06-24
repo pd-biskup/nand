@@ -1,7 +1,7 @@
 # import networkx as nx
 # from matplotlib import pyplot as plt
 import re
-from core.store import store
+from nand.core.store import store
 
 
 class ChipInfo:
@@ -317,7 +317,7 @@ class DFF(Chip):
 
     def tick(self, inputs):
         self.outputs[0].value = self._value
-        self._value = bool(inputs['in'])
+        self._value = inputs['in']
 
     def update(self):
         self.outputs[0].value = self._value

@@ -1,4 +1,4 @@
-import util.config as config
+import nand.util.config as config
 
 
 class Logger:

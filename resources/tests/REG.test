@@ -1,0 +1,18 @@
+Name
+    REG Test
+;
+Description
+    REG Test
+;
+Chip
+    REG
+;
+Test
+    in		load	out
+    0   	0   	0
+    0		1		0
+    1		1		0
+    0		0		1
+    0		1		1
+    0		0		0
+;

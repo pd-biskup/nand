@@ -25,5 +25,8 @@ class ChipStore:
 
     def __contains__(self, item):
         return item in self.store
+    
+    def __len__(self):
+        return len(self.store)
 
 store = ChipStore()

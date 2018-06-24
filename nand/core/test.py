@@ -1,5 +1,5 @@
-from core.store import store
-from util.config import colors
+from nand.core.store import store
+from nand.util.config import colors
 
 
 class Test:

@@ -1,0 +1,20 @@
+Name
+	FADD Test
+;
+Description
+	FADD Test
+;
+Chip
+	FADD
+;
+Test
+	in1		in2		carryIn		out		carryOut
+	0		0		0			0		0
+	0		1		0			1		0
+	1		0		0			1		0
+	1		1		0			0		1
+	0		0		1			1		0
+	0		1		1			0		1
+	1		0		1			0		1
+	1		1		1			1		1
+;
