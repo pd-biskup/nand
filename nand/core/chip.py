@@ -84,12 +84,12 @@ class Chip:
                             pin_nr = int(pin[1])
                             pin1 = input[pin_nr - 1]
             else:
-                pin = re.split(r'\[|\]', wire['in'])
-                if ':' in pin[1]:
-                    sl = pin[1].split(':')
+                pin = re.split(r'\[|\]|\.', wire['in'])
+                if ':' in pin[2]:
+                    sl = pin[2].split(':')
                     for ch in self.chips:
                         if ch.name == wire['in'][0]:
-                            for output in ch.output:
+                            for outputs in ch.output:
                                 if output.name == wire['in'][1]:
                                     if sl[0] == '':
                                         sl[0] = 1
@@ -103,10 +103,10 @@ class Chip:
                                     break
                 else:
                     for ch in self.chips:
-                        if ch.name == wire['in'][0]:
-                            for output in ch.output:
-                                if output.name == wire['in'][1]:
-                                    pin_nr = int(pin[1])
+                        if ch.name == pin[0]:
+                            for output in ch.outputs:
+                                if output.name == pin[1]:
+                                    pin_nr = int(pin[2])
                                     pin1 = output[pin_nr - 1]
 
             if '.' not in wire['out'] and '[' not in wire['out']:
@@ -145,12 +145,12 @@ class Chip:
                             pin_nr = int(pin[1])
                             pin2 = output[pin_nr - 1]
             else:
-                pin = re.split(r'\[|\]', wire['out'])
-                if ':' in pin[1]:
-                    sl = pin[1].split(':')
+                pin = re.split(r'\[|\]|\.', wire['out'])
+                if ':' in pin[2]:
+                    sl = pin[2].split(':')
                     for ch in self.chips:
                         if ch.name == wire['out'][0]:
-                            for input in ch.input:
+                            for input in ch.inputs:
                                 if input.name == wire['out'][1]:
                                     if sl[0] == '':
                                         sl[0] = 1
@@ -164,10 +164,10 @@ class Chip:
                                     break
                 else:
                     for ch in self.chips:
-                        if ch.name == wire['out'][0]:
-                            for input in ch.input:
-                                if input.name == wire['out'][1]:
-                                    pin_nr = int(pin[1])
+                        if ch.name == pin[0]:
+                            for input in ch.inputs:
+                                if input.name == pin[1]:
+                                    pin_nr = int(pin[2])
                                     pin2 = input[pin_nr - 1]
 
             if hasattr(pin1, '__getitem__'):
@@ -350,7 +350,7 @@ class Bus:
         self.parent = parent
         self.pins = []
         for i in range(width):
-            self.pins.append(Pin('%s[%i]' % (name, i + 1), parent))
+            self.pins.append(Pin(f'{name}[{i + 1}]', parent))
 
     def set_pins(self, values):
         for index, pin in enumerate(self.pins):
@@ -371,10 +371,10 @@ class Bus:
         return [pin.value for pin in self.pins]
 
     def __str__(self):
-        return '%s[%i]' % (self.name, self.width)
+        return f'{self.name}[{self.width}]'
 
-    def __getitem__(self, item):
-        return self.pins[item]
+    def __getitem__(self, key):
+        return self.pins[self.width - key - 1]
 
     def __len__(self):
         return self.width

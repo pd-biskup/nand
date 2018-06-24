@@ -103,7 +103,6 @@ def load_chips():
     paths = glob.glob(path, recursive=True)
     data = []
     for path in paths:
-        path = os.path.expanduser(path)
         data.append(parse_chip(load_file(path)))
 
     while len(data) > 0:

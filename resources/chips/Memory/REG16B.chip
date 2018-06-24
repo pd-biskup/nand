@@ -1,0 +1,23 @@
+Name
+    REG16B
+;
+Description
+    16-bit register
+;
+Inputs
+    in[16], load
+;
+Outputs
+    out[16]
+;
+Chips
+    reg1 REG8B, reg2 REG8B
+;
+Wires
+    in[:8] -> reg1.in,
+    in[9:] -> reg2.in,
+    load -> reg1.load,
+    load -> reg2.load,
+    reg1.out -> out[:8],
+    reg2.out -> out[9:]
+;

@@ -1,0 +1,23 @@
+Name
+    REG8B
+;
+Description
+    8-bit register
+;
+Inputs
+    in[8], load
+;
+Outputs
+    out[8]
+;
+Chips
+    reg1 REG4B, reg2 REG4B
+;
+Wires
+    in[:4] -> reg1.in,
+    in[5:] -> reg2.in,
+    load -> reg1.load,
+    load -> reg2.load,
+    reg1.out -> out[:4],
+    reg2.out -> out[5:]
+;

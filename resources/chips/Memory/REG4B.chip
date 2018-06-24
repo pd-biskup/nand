@@ -1,0 +1,31 @@
+Name
+    REG4B
+;
+Description
+    4-bit register
+;
+Inputs
+    in[4], load
+;
+Outputs
+    out[4]
+;
+Chips
+    dff1 DFF, dff2 DFF, dff3 DFF, dff4 DFF, mux MUX4B
+;
+Wires
+    dff1.out -> mux.in1[1],
+    dff2.out -> mux.in1[2],
+    dff3.out -> mux.in1[3],
+    dff4.out -> mux.in1[4],
+    in -> mux.in2,
+    load -> mux.sel,
+    mux.out[1] -> dff1.in,
+    mux.out[2] -> dff2.in,
+    mux.out[3] -> dff3.in,
+    mux.out[4] -> dff4.in,
+    dff1.out -> out[1],
+    dff2.out -> out[2],
+    dff3.out -> out[3],
+    dff4.out -> out[4]
+;
