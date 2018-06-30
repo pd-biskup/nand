@@ -3,13 +3,12 @@ import nand.util.config as config
 
 class Logger:
 
-    def __init__(self, level=config.log_level, output=config.log_output, color=config.color):
-        self.level = level
+    def __init__(self, output=config.log_output, color=config.color):
         self.output = output
         self.color = color
     
     def log(self, message, level):
-        if self.level >= level:
+        if config.log_level >= level:
             msg = '['
             if config.color:
                 if level == config.Level.ERR:

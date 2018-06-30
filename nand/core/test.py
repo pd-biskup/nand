@@ -1,5 +1,5 @@
 from nand.core.store import store
-from nand.util.config import colors
+import nand.util.config as config
 
 
 class Test:
@@ -26,7 +26,7 @@ class Test:
                     self.output[out.name].append(out.value)
             self.evaluated = True
 
-    def summary(self, color=False):
+    def summary(self):
         inputs = []
         for inpt in self.chip.inputs:
             try:
@@ -47,7 +47,7 @@ class Test:
             except TypeError:
                 real_values = [str(val) for val in self.output[out.name]]
             real_outputs.append(TestColumn(out.name, real_values))
-        return TestSummary(inputs, test_outputs, real_outputs, color)
+        return TestSummary(inputs, test_outputs, real_outputs)
     
     def __str__(self):
         return f'Test {self.name}'
@@ -55,7 +55,7 @@ class Test:
 
 class TestSummary:
 
-    def __init__(self, inputs, test_outputs, real_outputs, color):
+    def __init__(self, inputs, test_outputs, real_outputs):
         self.inputs = inputs
         self.test_outputs = test_outputs
         self.real_outputs = real_outputs
@@ -66,7 +66,6 @@ class TestSummary:
             self.width += out.width + 1
         for out in self.real_outputs:
             self.width += out.width + 1
-        self.color = color
 
     def __str__(self):
         text = '+' + (self.width - 2) * '-' + '+' + '\n'
@@ -92,8 +91,8 @@ class TestSummary:
                 tests[out.label] = out[i].strip()
             text += '|'
             for out in self.real_outputs:
-                if self.color and tests[out.label] != out[i].strip():
-                    text += colors['red'] + out[i] + colors['default'] + '|'
+                if config.color and tests[out.label] != out[i].strip():
+                    text += config.colors['red'] + out[i] + config.colors['default'] + '|'
                 else:
                     text += out[i] + '|'
             text += '\n'

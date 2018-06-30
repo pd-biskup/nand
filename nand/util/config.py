@@ -3,18 +3,17 @@ from sys import stdout
 
 
 class Level(IntEnum):
-    NON = 0
-    ERR = 1
-    WRN = 2
-    INF = 3
-    DBG = 4
+    ERR = 0
+    WRN = 1
+    INF = 2
+    DBG = 3
 
 workspace = '~/.nand'
 
-log_level = Level.DBG
+log_level = Level.ERR
 log_output = [stdout]
 
-color = True
+color = False
 colors = {
     'default': '\033[0m',
     'red': '\033[31m',

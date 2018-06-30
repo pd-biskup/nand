@@ -6,7 +6,7 @@ from nand.core.chip import ChipInfo
 from nand.core.store import store
 from nand.core.test import Test
 from nand.util.log import log
-from nand.util.config import Level, workspace
+import nand.util.config as config
 
 
 def parse_chip(chip):
@@ -98,8 +98,8 @@ def parse_sections(text):
 
 
 def load_chips():
-    log.log('Loading chips', Level.INF)
-    path = os.path.expanduser(os.path.join(workspace, 'chips/**/*.chip'))
+    log.log('Loading chips', config.Level.INF)
+    path = os.path.expanduser(os.path.join(config.workspace, 'chips/**/*.chip'))
     paths = glob.glob(path, recursive=True)
     data = []
     for path in paths:
@@ -116,19 +116,19 @@ def load_chips():
                 del data[i]
                 break
         if length == len(data):
-            log.log('Some chips have unresolved dependencies', Level.WRN)
+            log.log('Some chips have unresolved dependencies', config.Level.WRN)
             break
-    log.log(f'Loaded {len(store)} chips', Level.INF)
+    log.log(f'Loaded {len(store)} chips', config.Level.INF)
 
 
 def load_test(name):
-    log.log(f'Loading test: {name}', Level.DBG)
-    path = pathlib.Path(os.path.expanduser(os.path.join(workspace, f'tests/{name}.test')))
+    log.log(f'Loading test: {name}', config.Level.DBG)
+    path = pathlib.Path(os.path.expanduser(os.path.join(config.workspace, f'tests/{name}.test')))
     if path.exists():
         text = load_file(path)
         test = parse_test(text)
-        log.log(f'Loaded test: {name}', Level.DBG)
+        log.log(f'Loaded test: {name}', config.Level.DBG)
         return test
     else:
-        log.log(f'Loading test failed. File {path.absolute()} not found.', Level.ERR)
+        log.log(f'Loading test failed. File {path.absolute()} not found.', config.Level.ERR)
         raise FileNotFoundError(path.absolute())
